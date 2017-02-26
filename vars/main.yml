@@ -1,0 +1,5 @@
+---
+COMMON_PACKAGES:
+  - vim
+  - htop
+  - tmux

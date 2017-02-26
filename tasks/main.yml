@@ -1,0 +1,16 @@
+---
+- name: Create a user named gigi
+  user: name=gigi
+
+- name: Add public key
+  authorized_key: user=gigi key="{{lookup('file','~/.ssh/id_rsa.pub')}}"
+
+- name: Copy the .gigirc file to the home directory of the new user gigi
+  copy: src=~/.gigirc dest=/home/gigi/.gigirc owner=gigi group=gigi mode=0644 
+
+- name: Run .gigirc from .bashrc
+  lineinfile: dest=/home/gigi/.bashrc line='source /home/gigi/.gigirc'
+
+- name: Install common packages
+  apt: name={{ item }} state=installed update_cache=true force=yes
+  with_items: COMMON_PACKAGES
